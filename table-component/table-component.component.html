@@ -1,0 +1,32 @@
+<div>
+  <span *ngIf="setSorting">
+    <input type="text" #searchText (keyup)="doFilter(searchText.value)" placeholder="Search"></span>
+  <table>
+    <thead>
+      <th *ngFor="let header of headers" (click)="sort(header)" class="pointer">{{header}}
+        <i class="fa"  *ngIf="setSorting" 
+        [ngClass]="{'fa-sort': column != header, 
+                            'fa-sort-asc': (column == header && !isDesc), 
+                            'fa-sort-desc': (column == header && isDesc) }"
+        aria-hidden="true"> </i>
+      </th>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of items |orderBy: {property: column, direction: direction} " [ngClass]="{'style1': setClass}">
+        <td *ngFor="let column of headers ">{{data[column]}}</td>
+
+      </tr>
+    </tbody>
+  </table>
+  <div class="btn-toolbar" role="toolbar" style="margin: 0;">
+    <div class="btn-group pull-right">
+       <ul class="pagination" >
+          <li [ngClass]="{'disabled': (currentIndex == 1 || pageNumber == 0)}" ><a  (click)="prevPage()" href="#">Prev</a></li>
+             <li *ngFor="let page of pagesIndex"  [ngClass]="{'active': (currentIndex == page)}">
+                <a (click)="setPage(page)" href="#" >{{page}}</a>
+             </li>
+          <li [ngClass]="{'disabled': (currentIndex == pageNumber || pageNumber == 0)}" ><a   (click)="nextPage()" href="#">Next</a></li>
+       </ul>
+    </div>
+ </div>
+</div>
